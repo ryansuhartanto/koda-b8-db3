@@ -5,7 +5,7 @@ JOIN "movies_directors" ON "movies_directors"."movie_id" = "movies"."id" AND "mo
 JOIN "movies_genres" ON "movies_genres"."movie_id" = "movies"."id"
 LIMIT 50;
 
-SELECT concat_ws(' ', "actors"."first_name", "actors"."last_name"), "movies"."name" as "movie", "roles"."role"
+SELECT concat_ws(' ', "actors"."first_name", "actors"."last_name") AS "name", "actors"."gender", "movies"."name" as "movie", "roles"."role"
 FROM "actors"
 CROSS JOIN "movies"
 JOIN "roles" ON "roles"."actor_id" = "actors"."id" AND "roles"."movie_id" = "movies"."id"
