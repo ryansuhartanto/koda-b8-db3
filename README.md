@@ -108,6 +108,109 @@ Bob Herron | M | $ | Bodyguard
 Horst Hesslein | M | $ | Bruno
 Hans (I) Hutter | M | $ | Karl
 
+## [query3](query3)
+
+```sql
+SELECT
+    concat_ws(' ', "directors"."first_name", "directors"."last_name") AS "name",
+    COUNT(*) AS "total_genres"
+FROM "directors"
+JOIN "directors_genres" ON "directors_genres"."director_id" = "directors"."id"
+GROUP BY "directors"."id"
+ORDER BY COUNT(*) DESC;
+```
+
+name | total_genres
+:- | -:
+Arthur Lubin | 20
+Edward L. Cahn | 19
+Henry Levin | 19
+Edgar G. Ulmer | 19
+Jean Yarbrough | 19
+Charles (I) Barton | 18
+Francis Ford Coppola | 18
+Richard Fleischer | 18
+Jacques Tourneur | 17
+Lew Landers | 17
+
+```sql
+SELECT
+    concat_ws(' ', "actors"."first_name", "actors"."last_name") AS "name",
+    "actors"."gender",
+    COUNT(*) AS "total_roles"
+FROM "actors"
+JOIN "roles" ON "roles"."actor_id" = "actors"."id"
+GROUP BY "actors"."id"
+HAVING COUNT(*) > 5
+ORDER BY COUNT(*) DESC;
+```
+
+name | gender | total_roles
+:- | :-: | -:
+Mel Blanc | M | 909
+Bess Flowers | F | 672
+Tom London | M | 549
+Bud Osborne | M | 544
+Adoor Bhasi | M | 544
+Edmund Cobb | M | 544
+Lee Phelps | M | 543
+Prem Nazir | M | 498
+Oliver Hardy | M | 450
+Emmett Vogan | M | 447
+
+```sql
+SELECT
+    concat_ws(' ', "directors"."first_name", "directors"."last_name") AS "name",
+    COUNT(*) AS "total_movies"
+FROM "directors"
+JOIN "movies_directors" ON "movies_directors"."director_id" = "directors"."id"
+GROUP BY "directors"."id"
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+```
+
+name | total_movies
+:- | -:
+Dave Fleischer | 616
+
+```sql
+SELECT
+    "year",
+    COUNT(*) AS "total"
+FROM "movies"
+GROUP BY "movies"."year"
+ORDER BY COUNT(*) DESC
+LIMIT 1;
+```
+
+year | total
+:-: | -:
+2002 | 12056
+
+```sql
+SELECT
+    "movies"."name",
+    "movies"."rankscore",
+    "movies"."year",
+    string_agg("movies_genres"."genre", ', ')
+FROM "movies"
+JOIN "movies_genres" ON "movies_genres"."movie_id" = "movies"."id"
+GROUP BY "movies"."id"
+```
+
+name | rankscore | year | string_agg
+:- | :-: | :-: | :-
+#7 Train: An Immigrant Journey, The | NULL | 2000 | Documentary, Short
+$ | 6.4 | 1971 | Comedy, Crime
+$1,000 Reward | NULL | 1923 | Western
+$1,000,000 Duck | 5 | 1971 | Comedy, Family
+$10,000 Under a Pillow | NULL | 1921 | Animation, Comedy, Short
+$100,000 | NULL | 1915 | Drama
+$100,000 Pyramid, The | NULL | 2001 | Family
+$1000 a Touchdown | 6.7 | 1939 | Comedy
+$20,000 Carat, The | NULL | 1913 | Crime, Drama, Short
+$21 a Day Once a Month | NULL | 1941 | Animation, Short
+
 ## License
 
 [MIT](LICENSE)
